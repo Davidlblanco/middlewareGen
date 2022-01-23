@@ -1,9 +1,11 @@
 const axios = require('axios')
 const CircularJSON = require('circular-json')
 
-exports.post = function (req, body) {
+
+exports.get = (req, headers) => {
+
     return axios
-        .post(req, body)
+        .get(req, headers)
         .then(res => {
             let json = CircularJSON.stringify(res);
             return json
