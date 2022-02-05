@@ -97,11 +97,10 @@ app.patch('/patch', async (req, response) => {
     headers["x-vtex-api-appKey"] = arr[1]
     headers["x-vtex-api-appToken"] = arr[2]
 
-    const options = { headers: headers, data: body };
     const res = PatchFunc.patch(arr[3],
-        options
+        body,
+        headers
     );
-
     res.then(function (result) {
         response.statusCode = JSON.parse(result)['status']
         response.send(JSON.parse(result))
