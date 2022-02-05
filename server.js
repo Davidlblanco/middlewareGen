@@ -3,6 +3,8 @@ const app = express()
 const cors = require('cors')
 const GetFunc = require('./methods/GetFunc')
 const PostFunc = require('./methods/PostFunc')
+const DeleteFunc = require('./methods/DeleteFunc')
+const PatchFunc = require('./methods/PatchFunc')
 const { TreatInfo } = require('./TreatInfo')
 const { sheet } = require('./GetSheet')
 require('dotenv').config()
@@ -50,6 +52,54 @@ app.post('/post', async (req, response) => {
     const res = PostFunc.post(arr[3],
         body,
         headers
+    );
+
+    res.then(function (result) {
+        response.statusCode = JSON.parse(result)['status']
+        response.send(JSON.parse(result))
+    }).catch((error) => {
+        response.send(error)
+    })
+
+})
+
+//delete
+app.delete('/delete', async (req, response) => {
+    const body = req.body
+    const sheets = await sheet()
+
+    const arr = TreatInfo(sheets.data.values, req.query)
+
+    headers["x-vtex-api-appKey"] = arr[1]
+    headers["x-vtex-api-appToken"] = arr[2]
+
+    const options = { headers: headers, data: body };
+    const res = DeleteFunc.delete(arr[3],
+        options
+    );
+
+    res.then(function (result) {
+        response.statusCode = JSON.parse(result)['status']
+        response.send(JSON.parse(result))
+    }).catch((error) => {
+        response.send(error)
+    })
+
+})
+
+//patch
+app.patch('/patch', async (req, response) => {
+    const body = req.body
+    const sheets = await sheet()
+
+    const arr = TreatInfo(sheets.data.values, req.query)
+
+    headers["x-vtex-api-appKey"] = arr[1]
+    headers["x-vtex-api-appToken"] = arr[2]
+
+    const options = { headers: headers, data: body };
+    const res = PatchFunc.patch(arr[3],
+        options
     );
 
     res.then(function (result) {
