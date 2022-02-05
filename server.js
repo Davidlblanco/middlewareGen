@@ -5,13 +5,14 @@ const GetFunc = require('./methods/GetFunc')
 const PostFunc = require('./methods/PostFunc')
 const DeleteFunc = require('./methods/DeleteFunc')
 const PatchFunc = require('./methods/PatchFunc')
+const PutFunc = require('./methods/PutFunc')
 const { TreatInfo } = require('./TreatInfo')
 const { sheet } = require('./GetSheet')
 require('dotenv').config()
 app.use(cors())
 app.use(express.json())
 
-
+const errorEndmoint = { "error": "The application did not find the specified endpoint" }
 let headers = {
     "x-vtex-api-appKey": '',
     "x-vtex-api-appToken": '',
@@ -26,6 +27,10 @@ app.get('/get', async (req, response) => {
     const sheets = await sheet()
 
     const arr = TreatInfo(sheets.data.values, req.query)
+    if (arr.length == 0) {
+        response.send(errorEndmoint)
+        return
+    }
 
     headers["x-vtex-api-appKey"] = arr[1]
     headers["x-vtex-api-appToken"] = arr[2]
@@ -45,6 +50,10 @@ app.post('/post', async (req, response) => {
     const sheets = await sheet()
 
     const arr = TreatInfo(sheets.data.values, req.query)
+    if (arr.length == 0) {
+        response.send(errorEndmoint)
+        return
+    }
 
     headers["x-vtex-api-appKey"] = arr[1]
     headers["x-vtex-api-appToken"] = arr[2]
@@ -69,6 +78,10 @@ app.delete('/delete', async (req, response) => {
     const sheets = await sheet()
 
     const arr = TreatInfo(sheets.data.values, req.query)
+    if (arr.length == 0) {
+        response.send(errorEndmoint)
+        return
+    }
 
     headers["x-vtex-api-appKey"] = arr[1]
     headers["x-vtex-api-appToken"] = arr[2]
@@ -93,6 +106,10 @@ app.patch('/patch', async (req, response) => {
     const sheets = await sheet()
 
     const arr = TreatInfo(sheets.data.values, req.query)
+    if (arr.length == 0) {
+        response.send(errorEndmoint)
+        return
+    }
 
     headers["x-vtex-api-appKey"] = arr[1]
     headers["x-vtex-api-appToken"] = arr[2]
@@ -110,6 +127,32 @@ app.patch('/patch', async (req, response) => {
 
 })
 
+//put
+app.put('/put', async (req, response) => {
+    const body = req.body
+    const sheets = await sheet()
+
+    const arr = TreatInfo(sheets.data.values, req.query)
+    if (arr.length == 0) {
+        response.send(errorEndmoint)
+        return
+    }
+
+    headers["x-vtex-api-appKey"] = arr[1]
+    headers["x-vtex-api-appToken"] = arr[2]
+
+    const res = PutFunc.put(arr[3],
+        body,
+        headers
+    );
+    res.then(function (result) {
+        response.statusCode = JSON.parse(result)['status']
+        response.send(JSON.parse(result))
+    }).catch((error) => {
+        response.send(error)
+    })
+
+})
 
 app.listen(process.env.PORT || '4000')
 
