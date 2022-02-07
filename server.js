@@ -21,7 +21,7 @@ let headers = {
 
 }
 
-//get
+// get
 app.get('/get', async (req, response) => {
 
     const sheets = await sheet()
@@ -44,7 +44,7 @@ app.get('/get', async (req, response) => {
     })
 })
 
-//post
+// post
 app.post('/post', async (req, response) => {
     const body = req.body
     const sheets = await sheet()
@@ -72,7 +72,7 @@ app.post('/post', async (req, response) => {
 
 })
 
-//delete
+// delete
 app.delete('/delete', async (req, response) => {
     const body = req.body
     const sheets = await sheet()
@@ -100,7 +100,7 @@ app.delete('/delete', async (req, response) => {
 
 })
 
-//patch
+// patch
 app.patch('/patch', async (req, response) => {
     const body = req.body
     const sheets = await sheet()
@@ -127,7 +127,7 @@ app.patch('/patch', async (req, response) => {
 
 })
 
-//put
+// put
 app.put('/put', async (req, response) => {
     const body = req.body
     const sheets = await sheet()
