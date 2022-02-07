@@ -1,7 +1,10 @@
 const { google } = require('googleapis')
+const prod = 'credentialsHeroku.js'
+const dev = 'credential.json'
+
 exports.sheet = async () => {
     const auth = new google.auth.GoogleAuth({
-        keyFile: process.env.GOOGLE_CREDENTIALS || 'credentials.json',
+        keyFile: prod,
         scopes: 'https://www.googleapis.com/auth/spreadsheets',
     })
     const client = await auth.getClient()
