@@ -2,7 +2,7 @@ const { google } = require('googleapis')
 const GoogleAuth = require('google-auth-library');
 exports.sheet = async () => {
     const auth = new google.auth.GoogleAuth({
-        keyFile: process.env.credentials || 'credentials.json',
+        keyFile: JSON.stringify(process.env.credentials) || 'credentials.json',
         scopes: 'https://www.googleapis.com/auth/spreadsheets',
     })
     const client = await auth.getClient()
