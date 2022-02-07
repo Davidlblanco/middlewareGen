@@ -20,7 +20,11 @@ let headers = {
     "Accept": "application/json"
 
 }
+// get
+app.get('/', async (req, response) => {
+    response.send({ test: 'test' })
 
+})
 // get
 app.get('/get', async (req, response) => {
 
