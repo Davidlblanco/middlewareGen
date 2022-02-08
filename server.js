@@ -7,7 +7,7 @@ const DeleteFunc = require('./methods/DeleteFunc')
 const PatchFunc = require('./methods/PatchFunc')
 const PutFunc = require('./methods/PutFunc')
 const { TreatInfo } = require('./TreatInfo')
-const { sheet } = require('./getSheet')
+const { sheet } = require('./gçetSheet')
 require('dotenv').config()
 app.use(cors())
 app.use(express.json())
@@ -22,7 +22,7 @@ let headers = {
 }
 // test
 app.get('/', async (req, response) => {
-    response.send({ test: 'test' })
+    response.send({ testApp: 'app is working' })
 })
 
 // get
