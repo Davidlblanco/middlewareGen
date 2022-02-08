@@ -1,12 +1,15 @@
 const { google } = require('googleapis')
-const GoogleAuth = require('google-auth-library');
+require('dotenv').config();
+const { createJSONFile } = require('./credentialsHeroku.js')
+createJSONFile()
+
 exports.sheet = async () => {
     const auth = new google.auth.GoogleAuth({
-        keyFile: JSON.stringify(process.env.credentials) || 'credentials.json',
+        keyFile: process.env.GCS_KEYFILE,
         scopes: 'https://www.googleapis.com/auth/spreadsheets',
     })
-    const client = await auth.getClient()
 
+    const client = await auth.getClient()
     const googleSheets = google.sheets({ version: 'v4', auth: client })
     const spreadsheetId = '1BkJBTVhanFaCGgaPEEkkxOZ0x8OVI7lrXq8QwpXctjM'
     const metaData = await googleSheets.spreadsheets.values.get({
